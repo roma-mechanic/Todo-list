@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>TODO</h1>
+    <p>The Todo list has the following record counts:</p>
+    <ul>
+        <li><strong>All Todos:</strong> {{ num_todos }}</li>
+        <li><strong>Todos done:</strong> {{ num_todos_done }}</li>
+        <li><strong>Todos not done:</strong> {{ num_toda_notdone }}</li>
+    </ul>
+
+
+{% endblock %}
