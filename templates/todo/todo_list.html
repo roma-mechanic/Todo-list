@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content  %}
+  <h1>
+    TODO list
+    <a style="float: right" href="{% url 'todo:todo-create' %}" class="btn btn-primary link-to-page ">
+      Create todo
+    </a>
+  </h1>
+  {% if todo_list %}
+    <table class="table">
+      <thead class="table-dark">
+        <tr>
+          <th>Content</th>
+          <th>Tag</th>
+          <th>Created time</th>
+          <th>Deadline</th>
+          <th>Complete/Undo</th>
+          <th>Update</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+
+      {% for todos in todo_list %}
+        <tr class="border text-bg-light">
+          <td class="border text-bg-light ">{{ todos.content }}</td>
+          <td>
+            {% for tags in todos.tags.all %}
+              <p>{{ tags }}</p>
+            {% endfor %}
+          </td>
+          <td class="border text-bg-light">{{ todos.created_time }}</td>
+          <td class="border col-sm-2">{{ todos.deadline }}</td>
+
+          <td class="border text-bg-light btn-group">
+            {% if todos.status %}
+              <p class="btn btn-success mb-0">Done</p>
+            {% else %}
+              <p class="btn btn-danger mb-0">Not done</p>
+            {% endif %}
+
+            {% if todos.status %}
+              <a href="{% url 'todo:todo-change_status' pk=todos.id %}?status={{ todos.status }}"
+                 class="btn btn-secondary">Undo</a>
+            {% else %}
+              <a href="{% url 'todo:todo-change_status' pk=todos.id %}?status={{ todos.status }}"
+                 class="btn btn-success">Complete</a>
+            {% endif %}
+          </td>
+
+           <td>
+              <a href="{% url 'todo:todo-update' pk=todos.id %}"
+                 class="btn btn-info link_to_page">Update</a>
+          </td>
+          <td>
+            <a href="{% url 'todo:todo-delete' pk=todos.id %}"
+               class="btn btn-danger link_to_page">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+
+  {% else %}
+    <p>There are no todos in list.</p>
+  {% endif %}
+{% endblock %}
